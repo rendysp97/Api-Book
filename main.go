@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	var PORT = ":8080"
+	var PORT = "8080"
 
 	connection.ConnectDB()
 
