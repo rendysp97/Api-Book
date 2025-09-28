@@ -12,9 +12,15 @@ import (
 var Db *sql.DB
 
 func ConnectDB() {
+	// Ambil DATABASE_URL dari env (Railway)
 	databaseUrl := os.Getenv("DATABASE_URL")
-	if databaseUrl == "" {
-		log.Fatal("DATABASE_URL tidak ditemukan")
+
+	if databaseUrl != "" {
+		fmt.Println("Menggunakan DATABASE_URL dari Railway")
+	} else {
+		// fallback lokal (hanya untuk development di laptop)
+		databaseUrl = "postgresql://postgres:postgres@127.0.0.1:5432/book_db"
+		fmt.Println("Fallback ke database lokal:", databaseUrl)
 	}
 
 	var err error
@@ -23,6 +29,7 @@ func ConnectDB() {
 		log.Fatal("Gagal buka koneksi:", err)
 	}
 
+	// Ping untuk memastikan database merespon
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal("Database tidak merespon:", err)
