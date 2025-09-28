@@ -6,30 +6,33 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var Db *sql.DB
 
 func ConnectDB() {
-	// Ambil DATABASE_URL dari env (Railway)
-	databaseUrl := os.Getenv("DATABASE_URL")
 
-	if databaseUrl != "" {
-		fmt.Println("Menggunakan DATABASE_URL dari Railway")
-	} else {
-		// fallback lokal (hanya untuk development di laptop)
-		databaseUrl = "postgresql://postgres:postgres@127.0.0.1:5432/book_db"
-		fmt.Println("Fallback ke database lokal:", databaseUrl)
-	}
+	_ = godotenv.Load("config/.env")
+
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
+	psqlInfo := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname,
+	)
 
 	var err error
-	Db, err = sql.Open("postgres", databaseUrl)
+	Db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal("Gagal buka koneksi:", err)
 	}
 
-	// Ping untuk memastikan database merespon
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal("Database tidak merespon:", err)
