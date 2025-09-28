@@ -17,8 +17,7 @@ func ConnectDB() {
 		log.Fatal("DATABASE_URL tidak ditemukan")
 	}
 
-	var err error
-	Db, err = sql.Open("postgres", databaseUrl)
+	Db, err := sql.Open("postgres", databaseUrl)
 	if err != nil {
 		log.Fatal("Gagal buka koneksi:", err)
 	}
