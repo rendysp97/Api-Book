@@ -6,7 +6,7 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT NOW(),
   modified_at TIMESTAMP DEFAULT NOW(),
   created_by VARCHAR(256),
-  modified_by VARCHAR(256)
+  modified_by TIMESTAMP DEFAULT NOW(),
 );
 
 -- +migrate Down
