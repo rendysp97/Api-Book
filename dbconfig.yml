@@ -1,0 +1,5 @@
+development:
+  dialect: postgres
+  datasource: postgres://postgres:12345@localhost:5432/book_db?sslmode=disable
+  table: migrations
+  dir: database/migrations
