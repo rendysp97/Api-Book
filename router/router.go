@@ -13,10 +13,6 @@ func StartServer() *gin.Engine {
 
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.Redirect(302, "/login")
-	})
-
 	router.POST("/api/users/login", auth.LoginUser)
 
 	cat := router.Group("/api")
