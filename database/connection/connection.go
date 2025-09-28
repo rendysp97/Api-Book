@@ -12,13 +12,12 @@ import (
 var Db *sql.DB
 
 func ConnectDB() {
-	// Ambil DATABASE_URL dari environment (Railway)
+
 	databaseUrl := os.Getenv("DATABASE_URL")
 
-	// Kalau DATABASE_URL kosong, fallback ke database lokal
 	if databaseUrl == "" {
-		fmt.Println("DATABASE_URL tidak ditemukan, pakai lokal")
-		databaseUrl = "postgresql://postgres:postgres@localhost:5432/book_db" // ganti sesuai lokalmu
+
+		databaseUrl = "postgresql://postgres:postgres@localhost:5432/book_db"
 	}
 
 	var err error
