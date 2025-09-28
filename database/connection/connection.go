@@ -6,29 +6,19 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var Db *sql.DB
 
 func ConnectDB() {
-
-	_ = godotenv.Load("config/.env")
-
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
-
-	psqlInfo := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname,
-	)
+	databaseUrl := os.Getenv("DATABASE_URL")
+	if databaseUrl == "" {
+		log.Fatal("DATABASE_URL tidak ditemukan")
+	}
 
 	var err error
-	Db, err = sql.Open("postgres", psqlInfo)
+	Db, err = sql.Open("postgres", databaseUrl)
 	if err != nil {
 		log.Fatal("Gagal buka koneksi:", err)
 	}
