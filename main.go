@@ -3,6 +3,7 @@ package main
 import (
 	"api-book/database/connection"
 	"api-book/router"
+	"os"
 )
 
 func main() {
@@ -10,5 +11,5 @@ func main() {
 
 	connection.ConnectDB()
 
-	router.StartServer().Run(PORT)
+	router.StartServer().Run(":" + os.Getenv(PORT))
 }
