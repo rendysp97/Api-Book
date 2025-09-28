@@ -7,9 +7,14 @@ import (
 )
 
 func main() {
-	var PORT = "8080"
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	router.StartServer().Run(":" + port)
 	connection.ConnectDB()
 
-	router.StartServer().Run(":" + os.Getenv(PORT))
+	router.StartServer().Run(":" + port)
 }
